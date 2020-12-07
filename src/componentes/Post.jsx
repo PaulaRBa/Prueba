@@ -11,12 +11,16 @@ function Post({ match, comment }) {
         categoryName: "",
         eventDate: "",
         eventName: "",
-        //picture: '',
         punctuaction: "",
         content: "",
     });
 
     const [comments, setComments] = useState([]);
+
+    const [credentials, setCredentials ] = useState({
+        isLogged: true,
+        role: "USER"
+    })
 
     useEffect(() => {
         fetch(`http://localhost:8090/posts/${match.params.id}`)
@@ -40,11 +44,17 @@ function Post({ match, comment }) {
         <Jumbotron fluid>
             <Container id="postPage">
                 <div className="row"><h2>{post.title}</h2></div><br />
-                {/* <div className="row">{post.picture}</div> */}<br />
                 <div className="row"><Badge pill variant="success">{post.categoryName.toUpperCase()}</Badge></div><br />
                 <div className="row">
                     <div className="col-md-9"><h6>Posted by: {post.userAlias} | {post.createDate}</h6></div>
-                    <div className="col-md-3"><h6>PUNTUACIÓN {post.punctuaction}</h6></div>
+                    <div className="col-md-3"><h6>PUNTUACIÓN {post.punctuaction}</h6>
+                    
+                    {credentials.isLogged
+                    ? <Button>LIKE</Button>
+                    : null
+                    }
+                    
+                    </div>
                 </div><br />
                 {/* Para establecer contenido html directamente desde React usamos el atributo dangerouslySetInnerHTML
                 (reemplaza el uso de innerHTML) se hace de este modo para evigtar así ataques XSS(cross-site scripting) */}
